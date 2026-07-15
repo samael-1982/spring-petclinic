@@ -16,7 +16,7 @@ spec:
           ingress:
             enabled: true
             ingressClassName: nginx
-            hostName: jenkins.localhost
+            hostName: jenkins.local
           admin:
             username: admin
           installPlugins: false
