@@ -20,13 +20,9 @@ spec:
           admin:
             username: admin
           installPlugins: false
-          podSecurityContextOverride:
-            runAsUser: 1000
-            fsGroup: 1000
-            runAsNonRoot: true
+          javaOpts: "-Djenkins.install.runSetupWizard=false"
         persistence:
-          enabled: true
-          size: 8Gi
+          enabled: false
 
   destination:
     server: https://kubernetes.default.svc
