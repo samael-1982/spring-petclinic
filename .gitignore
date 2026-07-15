@@ -9,7 +9,13 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-
+### MY ###
+Punkt*.txt
+ToDo
+infra/
+keys/
+resume.sh
+ 
 ### STS ###
 .attach_pid*
 .apt_generated
