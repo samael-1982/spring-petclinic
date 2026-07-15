@@ -19,14 +19,15 @@ spec:
             hostName: jenkins.localhost
           admin:
             username: admin
-          installPlugins:
-            - kubernetes
-            - workflow-aggregator
-            - git
-            - configuration-as-code
+          installPlugins: false
+          podSecurityContextOverride:
+            runAsUser: 1000
+            fsGroup: 1000
+            runAsNonRoot: true
         persistence:
           enabled: true
           size: 8Gi
+
   destination:
     server: https://kubernetes.default.svc
     namespace: jenkins
