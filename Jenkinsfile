@@ -85,7 +85,8 @@
 
       post {
           always {
-              deleteDir()
+            //   deleteDir()
+            echo "Build is completed!"
           }
       }
   }
