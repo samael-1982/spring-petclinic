@@ -58,33 +58,33 @@
               }
           }
 
-          stage('Build and Push Image') {
-              steps {
-                  container('kaniko') {
-                      withCredentials([usernamePassword(credentialsId: 'github-ghcr-token', usernameVariable: 'GHCR_USER',
-                      passwordVariable: 'GHCR_TOKEN')]) {
-                          sh '''
-                              mkdir -p /kaniko/.docker
-                              cat > /kaniko/.docker/config.json <<EOF
-  {
-    "auths": {
-      "ghcr.io": {
-        "username": "$GHCR_USER",
-        "password": "$GHCR_TOKEN"
-      }
-    }
-  }
-  EOF
+         stage('Build and Push Image') {
+            steps {
+                container('kaniko') {
+                    withCredentials([usernamePassword(credentialsId: 'github-ghcr-token', usernameVariable: 'GHCR_USER', passwordVariable:
+                    'GHCR_TOKEN')]) {
+                        sh '''
+                            set -e
 
-                              /kaniko/executor \
+                            echo "Preparing GHCR auth"
+                            mkdir -p /kaniko/.docker
+
+                            AUTH="$(printf '%s:%s' "$GHCR_USER" "$GHCR_TOKEN" | base64 | tr -d '\\n')"
+                            printf '{"auths":{"ghcr.io":{"auth":"%s"}}}' "$AUTH" > /kaniko/.docker/config.json
+
+                            echo "Building and pushing image: $IMAGE_NAME:$IMAGE_TAG"
+                            /kaniko/executor \
                                 --context "$WORKSPACE" \
                                 --dockerfile "$WORKSPACE/Dockerfile" \
-                                --destination "$IMAGE_NAME:$IMAGE_TAG"
-                          '''
-                      }
-                  }
-              }
-          }
+                                --destination "$IMAGE_NAME:$IMAGE_TAG" \
+                                --verbosity=info
+
+                            echo "Pushed image: $IMAGE_NAME:$IMAGE_TAG"
+                        '''
+                    }
+                }
+            }
+         }
       }
 
       post {
