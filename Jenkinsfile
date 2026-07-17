@@ -6,20 +6,24 @@
   kind: Pod
   spec:
     securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
+      fsGroup: 1000
     containers:
       - name: maven
         image: eclipse-temurin:17-jdk
         command:
           - cat
         tty: true
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
       - name: kaniko
         image: gcr.io/kaniko-project/executor:v1.23.2-debug
         command:
           - cat
         tty: true
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
         volumeMounts:
           - name: kaniko-docker-config
             mountPath: /kaniko/.docker
