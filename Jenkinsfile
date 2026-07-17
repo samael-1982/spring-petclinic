@@ -85,7 +85,7 @@
 
       post {
           always {
-              cleanWs()
+              deleteDir()
           }
       }
   }
