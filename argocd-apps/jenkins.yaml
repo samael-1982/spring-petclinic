@@ -12,28 +12,29 @@ spec:
     helm:
       values: |
         controller:
-        image:
-          registry: docker.io
-          repository: jenkins/jenkins
-          tag: "2.504.1-jdk17"
-        serviceType: ClusterIP
-        ingress:
-          enabled: true
-          ingressClassName: nginx
-          hostName: jenkins.local
-        admin:
-          username: admin
-        installPlugins:
-          - kubernetes
-          - workflow-aggregator
-          - git
-          - credentials
-          - plain-credentials
-          - credentials-binding
-          - docker-workflow
-        javaOpts: "-Djenkins.install.runSetupWizard=false"
-      persistence:
-        enabled: false
+          image:
+            registry: docker.io
+            repository: jenkins/jenkins
+            tag: "2.504.1-jdk17"
+          serviceType: ClusterIP
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            hostName: jenkins.local
+          admin:
+            username: admin
+          installPlugins:
+            - kubernetes
+            - workflow-aggregator
+            - git
+            - credentials
+            - plain-credentials
+            - credentials-binding
+            - docker-workflow
+          javaOpts: "-Djenkins.install.runSetupWizard=false"
+        persistence:
+          enabled: false
+
 
 
   destination:
