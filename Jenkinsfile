@@ -1,8 +1,32 @@
   pipeline {
-      agent any
+      agent {
+          kubernetes {
+              yaml '''
+  apiVersion: v1
+  kind: Pod
+  spec:
+    containers:
+      - name: maven
+        image: eclipse-temurin:17-jdk
+        command:
+          - cat
+        tty: true
+      - name: kaniko
+        image: gcr.io/kaniko-project/executor:v1.23.2-debug
+        command:
+          - cat
+        tty: true
+        volumeMounts:
+          - name: kaniko-docker-config
+            mountPath: /kaniko/.docker
+    volumes:
+      - name: kaniko-docker-config
+        emptyDir: {}
+  '''
+          }
+      }
 
       environment {
-          REGISTRY = 'ghcr.io'
           IMAGE_NAME = 'ghcr.io/samael-1982/spring-petclinic'
           IMAGE_TAG = "${env.BUILD_NUMBER}-${env.GIT_COMMIT.take(7)}"
       }
@@ -16,25 +40,44 @@
 
           stage('Test') {
               steps {
-                  sh './mvnw test'
+                  container('maven') {
+                      sh './mvnw test'
+                  }
               }
           }
 
-          stage('Build Image') {
+          stage('Package') {
               steps {
-                  sh './mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=${IMAGE_NAME}:${IMAGE_TAG}'
+                  container('maven') {
+                      sh './mvnw package -DskipTests'
+                  }
               }
           }
 
-          stage('Push Image') {
+          stage('Build and Push Image') {
               steps {
-                  withCredentials([usernamePassword(credentialsId: 'github-ghcr-token', usernameVariable: 'GHCR_USER',
-                  passwordVariable: 'GHCR_TOKEN')]) {
-                      sh '''
-                          echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
-                          docker push "$IMAGE_NAME:$IMAGE_TAG"
-                          docker logout ghcr.io
-                      '''
+                  container('kaniko') {
+                      withCredentials([usernamePassword(credentialsId: 'github-ghcr-token', usernameVariable: 'GHCR_USER',
+                      passwordVariable: 'GHCR_TOKEN')]) {
+                          sh '''
+                              mkdir -p /kaniko/.docker
+                              cat > /kaniko/.docker/config.json <<EOF
+  {
+    "auths": {
+      "ghcr.io": {
+        "username": "$GHCR_USER",
+        "password": "$GHCR_TOKEN"
+      }
+    }
+  }
+  EOF
+
+                              /kaniko/executor \
+                                --context "$WORKSPACE" \
+                                --dockerfile "$WORKSPACE/Dockerfile" \
+                                --destination "$IMAGE_NAME:$IMAGE_TAG"
+                          '''
+                      }
                   }
               }
           }
@@ -46,4 +89,3 @@
           }
       }
   }
-
