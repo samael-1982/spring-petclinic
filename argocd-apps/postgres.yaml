@@ -11,6 +11,10 @@ spec:
     targetRevision: 15.5.38
     helm:
       values: |
+        image:
+          registry: docker.io
+          repository: bitnami/postgresql
+          tag: "16.6.0-debian-12-r2"
         auth:
           username: petclinic
           password: petclinic
@@ -19,6 +23,7 @@ spec:
           persistence:
             enabled: true
             size: 200Mi
+
   destination:
     server: https://kubernetes.default.svc
     namespace: database
