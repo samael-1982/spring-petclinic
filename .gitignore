@@ -15,7 +15,7 @@ ToDo
 infra/
 keys/
 resume.sh
- 
+.devcontainer/devcontainer-lock.json 
 ### STS ###
 .attach_pid*
 .apt_generated

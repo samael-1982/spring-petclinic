@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: postgres
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: registry-1.docker.io/bitnamicharts
+    chart: postgresql
+    targetRevision: 15.5.38
+    helm:
+      values: |
+        auth:
+          username: petclinic
+          password: petclinic
+          database: petclinic
+        primary:
+          persistence:
+            enabled: true
+            size: 2Gi
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: database
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
