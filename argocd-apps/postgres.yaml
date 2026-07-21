@@ -9,29 +9,22 @@ spec:
     repoURL: registry-1.docker.io/bitnamicharts
     chart: postgresql
     targetRevision: 15.5.38
-    helm:
-      values: |
-        image:
-          registry: docker.io
-          repository: bitnami/postgresql
-          tag: "latest"
-        auth:
-          username: petclinic
-          password: petclinic
-          database: petclinic
-        primary:
-          persistence:
-            enabled: true
-            size: 200Mi
-          podSecurityContext:
-            enabled: true
-            fsGroup: 1001
-          containerSecurityContext:
-            enabled: true
-            runAsUser: 1001
-            runAsGroup: 1001
-        volumePermissions:
-          enabled: true
+  helm:
+    values: |
+      image:
+        registry: docker.io
+        repository: bitnami/postgresql
+        tag: "latest"
+      auth:
+        username: petclinic
+        password: petclinic
+        database: petclinic
+      primary:
+        persistence:
+          enabled: false
+      volumePermissions:
+        enabled: false
+
 
   destination:
     server: https://kubernetes.default.svc
