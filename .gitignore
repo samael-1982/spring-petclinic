@@ -16,6 +16,7 @@ infra/
 keys/
 resume.sh
 .devcontainer/devcontainer-lock.json 
+.editorconfig
 ### STS ###
 .attach_pid*
 .apt_generated
