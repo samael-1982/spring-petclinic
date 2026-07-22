@@ -28,6 +28,9 @@ spec:
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: {{ .Values.env.springProfilesActive | quote }}
+            - name: SERVER_TOMCAT_USE_RELATIVE_REDIRECTS
+              value: "true"
+
           envFrom:
             - secretRef:
                 name: {{ include "petclinic.fullname" . }}-db
