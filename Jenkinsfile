@@ -172,6 +172,8 @@
               set -e
               git remote -v
               git status
+              git remote set-url origin git@github.com:samael-1982/spring-petclinic.git
+              git remote -v
               git push origin HEAD:$GIT_BRANCH
             '''
           }
