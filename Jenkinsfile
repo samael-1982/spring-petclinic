@@ -129,11 +129,11 @@
           sh '''
             set -e
 
-            echo "Updating image tag to $IMAGE_TAG"
-            echo "Workspace: $WORKSPACE"
-            ls -l "$WORKSPACE/bin"
+            yq --version
 
-            "$WORKSPACE/bin/yq" -i '
+            echo "Updating image tag to $IMAGE_TAG"
+
+            yq -i '
               .image.tag = strenv(IMAGE_TAG)
             ' "$VALUES_FILE"
 
