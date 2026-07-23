@@ -171,9 +171,10 @@
             sh '''
               set -e
               git remote -v
-              git status
+             
               git remote set-url origin git@github.com:samael-1982/spring-petclinic.git
-              git remote -v
+              mkdir -p ~/.ssh
+              ssh-keyscan github.com >> ~/.ssh/known_hosts
               git push origin HEAD:$GIT_BRANCH
             '''
           }
