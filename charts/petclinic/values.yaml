@@ -1,35 +1,27 @@
 replicaCount: 1
-
 image:
   repository: ghcr.io/samael-1982/spring-petclinic
-  tag: "11-5584c00"
+  tag: "21-644c620"
   pullPolicy: IfNotPresent
-
-imagePullSecrets: 
+imagePullSecrets:
   - name: ghcr-pull-secret
-
 service:
   type: ClusterIP
   port: 80
   targetPort: 8080
-
 ingress:
   enabled: true
   className: nginx
   host: petclinic.local
   path: /
   pathType: Prefix
-
 postgres:
   url: jdbc:postgresql://postgres-postgresql.database.svc.cluster.local:5432/petclinic
   username: petclinic
   password: petclinic
-
 env:
   springProfilesActive: postgres
-
 resources: {}
-
 probes:
   liveness:
     path: /actuator/health
