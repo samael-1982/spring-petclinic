@@ -9,7 +9,7 @@
       fsGroup: 1000
     containers:
       - name: maven
-        image: eclipse-temurin:17-jdk
+        image: ghcr.io/samael-1982/jenkins-build:latest
         command:
           - cat
         tty: true
@@ -57,28 +57,28 @@
         }
       }
     }
-    stage('Install yq') {
-      steps {
-        container('maven') {
-          sh '''
-            set -e
-            echo "Purpose of this stage is to install yq tool into workspace bin directory if it is not already installed."
-            mkdir -p "$WORKSPACE/bin"
+    // stage('Install yq') {
+    //   steps {
+    //     container('maven') {
+    //       sh '''
+    //         set -e
+    //         echo "Purpose of this stage is to install yq tool into workspace bin directory if it is not already installed."
+    //         mkdir -p "$WORKSPACE/bin"
 
-            if [ ! -f "$WORKSPACE/bin/yq" ]; then
-                echo "Installing yq..."
-                wget -q \
-                  https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 \
-                  -O "$WORKSPACE/bin/yq"
-                chmod +x "$WORKSPACE/bin/yq"
-            fi
+    //         if [ ! -f "$WORKSPACE/bin/yq" ]; then
+    //             echo "Installing yq..."
+    //             wget -q \
+    //               https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 \
+    //               -O "$WORKSPACE/bin/yq"
+    //             chmod +x "$WORKSPACE/bin/yq"
+    //         fi
 
-            "$WORKSPACE/bin/yq" --version
-          '''
-        }
-      }
+    //         "$WORKSPACE/bin/yq" --version
+    //       '''
+    //     }
+    //   }
     
-    }
+    // }
 
     stage('Test') {
         steps {
