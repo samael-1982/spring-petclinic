@@ -40,7 +40,7 @@
     GIT_BRANCH  = 'main'
     CHART_DIR   = 'charts/petclinic'
     VALUES_FILE = 'charts/petclinic/values.yaml'
-    PATH = "${env.WORKSPACE}/bin:${env.PATH}"
+    // PATH = "${env.WORKSPACE}/bin:${env.PATH}"
   }
 
   stages {
