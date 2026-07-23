@@ -143,6 +143,44 @@
         }
       }
     }
+    stage('Commit Helm changes') {
+      steps {
+        container('maven') {
+          sh '''
+            set -e
+
+            git config user.name "Jenkins CI"
+            git config user.email "jenkins@petclinic.local"
+
+            git add "$VALUES_FILE"
+
+            if git diff --cached --quiet; then
+              echo "No changes to commit."
+              exit 0
+            fi
+
+            git commit -m "chore: update image tag to $IMAGE_TAG [skip ci]"
+          '''
+        }
+      }
+    }
+    stage('Push Helm changes') {
+      steps {
+        container('maven') {
+          sshagent(credentials: ['github-ssh']) {
+            sh '''
+              set -e
+              git remote -v
+              git status
+              git push origin HEAD:$GIT_BRANCH
+            '''
+          }
+        }
+      }
+    }
+
+
+
   }
   
 
