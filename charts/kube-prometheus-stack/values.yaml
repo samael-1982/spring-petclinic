@@ -30,13 +30,6 @@ grafana:
       enabled: true
     datasources:
       enabled: true
-
-  # additionalDataSources:
-  #   - name: Prometheus
-  #     type: prometheus
-  #     access: proxy
-  #     url: http://kube-prometheus-stack-prometheus.monitoring.svc:9090
-  #     isDefault: true
   
   defaultDashboardsEnabled: true
   defaultDashboardsTimezone: browser
