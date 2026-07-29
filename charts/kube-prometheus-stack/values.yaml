@@ -9,21 +9,8 @@ prometheus:
 grafana:
   enabled: true
 
-  adminUser: admin
-  adminPassword: admin
-
   persistence:
     enabled: false
-
-  ingress:
-    enabled: true
-    ingressClassName: nginx
-
-    hosts:
-      - grafana.local
-
-    path: /
-    pathType: Prefix
 
   sidecar:
     dashboards:
