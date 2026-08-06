@@ -4,4 +4,4 @@ metadata:
   name: local-ca
 spec:
   ca:
-    secretName: local-root-c
+    secretName: local-root-ca
