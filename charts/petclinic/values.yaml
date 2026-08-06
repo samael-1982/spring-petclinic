@@ -15,6 +15,12 @@ ingress:
   host: petclinic.local
   path: /
   pathType: Prefix
+  tls:
+    enabled: true
+    secretName: petclinic-local-tls
+  annotations:
+    cert-manager.io/cluster-issuer: local-ca
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
 postgres:
   url: jdbc:postgresql://postgres-postgresql.database.svc.cluster.local:5432/petclinic
   username: petclinic
