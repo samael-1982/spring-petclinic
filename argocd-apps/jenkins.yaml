@@ -21,6 +21,14 @@ spec:
             enabled: true
             ingressClassName: nginx
             hostName: jenkins.local
+            annotations:
+              cert-manager.io/cluster-issuer: local-ca
+              nginx.ingress.kubernetes.io/ssl-redirect: "true"
+            tls:
+              - secretName: jenkins-local-tls
+                hosts:
+                  - jenkins.local
+
           admin:
             username: admin
           installPlugins:
