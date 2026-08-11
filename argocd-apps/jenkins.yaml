@@ -32,6 +32,7 @@ spec:
           admin:
             username: admin
           installPlugins:
+          installPlugins:
             - kubernetes
             - workflow-aggregator
             - git
@@ -39,6 +40,10 @@ spec:
             - plain-credentials
             - credentials-binding
             - docker-workflow
+            - ssh-agent
+            - configuration-as-code
+            - job-dsl
+            - kubernetes
           javaOpts: "-Djenkins.install.runSetupWizard=false"
         persistence:
           enabled: false
