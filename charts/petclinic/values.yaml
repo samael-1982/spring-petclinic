@@ -1,7 +1,7 @@
 replicaCount: 1
 image:
   repository: ghcr.io/samael-1982/spring-petclinic
-  tag: "4-2207449"
+  tag: "1-0f750bb"
   pullPolicy: IfNotPresent
 imagePullSecrets:
   - name: ghcr-pull-secret
