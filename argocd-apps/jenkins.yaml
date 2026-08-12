@@ -31,7 +31,7 @@ spec:
 
           admin:
             username: admin
-          installPlugins:
+            password: admin1234          
           installPlugins:
             - kubernetes
             - workflow-aggregator
