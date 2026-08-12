@@ -10,31 +10,38 @@ spec:
   source:
     repoURL: https://helm.releases.hashicorp.com
     chart: vault
-    targetRevision: 0.34.0
+    targetRevision: 0.34.0    
     helm:
       values: |
         global:
           enabled: true
+
         injector:
           enabled: false
+
         server:
-        
           dev:
             enabled: false
-            
+
           ha:
             enabled: true
             replicas: 1
+
             raft:
               enabled: true
               setNodeId: true
+
           dataStorage:
             enabled: true
             size: 2Gi
+            mountPath: "/vault/data"
             accessMode: ReadWriteOnce
+
         ui:
           enabled: true
           serviceType: ClusterIP
+          
+      
   destination:
     server: https://kubernetes.default.svc
     namespace: vault
